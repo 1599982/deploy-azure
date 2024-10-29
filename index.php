@@ -3,35 +3,52 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>.: SENATI :.</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Azure?</title>
+	<link rel="stylesheet" href="style.css">
+	<script src="https://kit.fontawesome.com/1431b616a6.js" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
-    <button class="btn btn-success">Agregar +</button>
-    <table class="table table-bordered">
-        <tr>
-            <th>Id</th>
-            <th>Nombre</th>
-            <th>Apellidos</th>
-            <th>Acción</th>
-        </tr>
+	<header>
+		<h1 class="title">Alumnos</h1>
+		<nav class="actions">
+			<div id="add-btn" class="active-btn">
+				<i class="fa-solid fa-user-plus"></i>
+			</div>
+			<div id="edit-btn" class="disabled">
+                <i class="fa-solid fa-user-pen"></i>
+			</div>
+			<div id="delete-btn" class="disabled">
+				<i class="fa-solid fa-user-xmark"></i>
+			</div>
+		</nav>
+	</header>
+	<main>
+		<table>
+			<tr>
+				<th>id</th>
+				<th>nombre</th>
+				<th>apellido</th>
+			</tr>
+			<?php
+			$query = 'SELECT * FROM student';
+			$result = sqlsrv_query($conn, $query);
 
-        <?php
-        $sql = "SELECT * FROM Alumno";
-        $stmt = sqlsrv_query($conn, $sql);
-
-        while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC)){
-        echo "<tr>
-            <td>$row[id]</td>
-            <td>$row[name]</td>
-            <td>$row[lastname]</td>
-            <td>Editar | Eliminar</td>
-        </tr>";
-        }
-        ?>
-    </table>
+			while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)) {
+				echo "
+			<tr class=\"row\">
+				<input type=\"hidden\" value=\"$row[id]\" disabled>
+				<td>$row[id]</td>
+				<td>$row[name]</td>
+				<td>$row[lastname]</td>
+			</tr>
+				";
+			}
+			?>
+		</table>
+	</main>
+	<script src="main.js"></script>
 </body>
 </html>
